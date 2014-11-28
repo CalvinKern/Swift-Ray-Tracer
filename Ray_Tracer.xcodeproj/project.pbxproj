@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		2C3B102B1A265F0B005069A1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B102A1A265F0B005069A1 /* main.swift */; };
+		2C3B10321A2665F6005069A1 /* Vector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10311A2665F6005069A1 /* Vector3.swift */; };
+		2C3B10341A269121005069A1 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10331A269121005069A1 /* Shape.swift */; };
+		2C3B10361A269756005069A1 /* Sphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10351A269756005069A1 /* Sphere.swift */; };
+		2C3B10381A269F64005069A1 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10371A269F64005069A1 /* Material.swift */; };
+		2C3B103D1A26A32C005069A1 /* Raster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B103C1A26A32C005069A1 /* Raster.swift */; };
+		2C3B10421A26A632005069A1 /* Raster.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10401A26A632005069A1 /* Raster.c */; };
+		2C3B10461A27B953005069A1 /* Ray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10451A27B953005069A1 /* Ray.swift */; };
+		2C3B10481A27C9E7005069A1 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10471A27C9E7005069A1 /* Scene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +31,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2C3B10271A265F0B005069A1 /* Ray Tracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Ray Tracer"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C3B10271A265F0B005069A1 /* Ray_Tracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Ray_Tracer; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C3B102A1A265F0B005069A1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		2C3B10311A2665F6005069A1 /* Vector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector3.swift; sourceTree = "<group>"; };
+		2C3B10331A269121005069A1 /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
+		2C3B10351A269756005069A1 /* Sphere.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
+		2C3B10371A269F64005069A1 /* Material.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
+		2C3B103C1A26A32C005069A1 /* Raster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Raster.swift; sourceTree = "<group>"; };
+		2C3B103F1A26A632005069A1 /* Ray_Tracer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ray_Tracer-Bridging-Header.h"; sourceTree = "<group>"; };
+		2C3B10401A26A632005069A1 /* Raster.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Raster.c; sourceTree = "<group>"; };
+		2C3B10411A26A632005069A1 /* Raster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Raster.h; sourceTree = "<group>"; };
+		2C3B10451A27B953005069A1 /* Ray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ray.swift; sourceTree = "<group>"; };
+		2C3B10471A27C9E7005069A1 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,7 +67,7 @@
 		2C3B10281A265F0B005069A1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2C3B10271A265F0B005069A1 /* Ray Tracer */,
+				2C3B10271A265F0B005069A1 /* Ray_Tracer */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -57,17 +75,51 @@
 		2C3B10291A265F0B005069A1 /* Ray Tracer */ = {
 			isa = PBXGroup;
 			children = (
+				2C3B10491A27E728005069A1 /* Image */,
+				2C3B10441A26B491005069A1 /* Utilities */,
+				2C3B10431A26B47C005069A1 /* Shapes */,
 				2C3B102A1A265F0B005069A1 /* main.swift */,
+				2C3B10471A27C9E7005069A1 /* Scene.swift */,
 			);
 			path = "Ray Tracer";
+			sourceTree = "<group>";
+		};
+		2C3B10431A26B47C005069A1 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				2C3B10331A269121005069A1 /* Shape.swift */,
+				2C3B10351A269756005069A1 /* Sphere.swift */,
+			);
+			name = Shapes;
+			sourceTree = "<group>";
+		};
+		2C3B10441A26B491005069A1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2C3B10311A2665F6005069A1 /* Vector3.swift */,
+				2C3B10371A269F64005069A1 /* Material.swift */,
+				2C3B10451A27B953005069A1 /* Ray.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		2C3B10491A27E728005069A1 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				2C3B103C1A26A32C005069A1 /* Raster.swift */,
+				2C3B10401A26A632005069A1 /* Raster.c */,
+				2C3B10411A26A632005069A1 /* Raster.h */,
+				2C3B103F1A26A632005069A1 /* Ray_Tracer-Bridging-Header.h */,
+			);
+			name = Image;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2C3B10261A265F0B005069A1 /* Ray Tracer */ = {
+		2C3B10261A265F0B005069A1 /* Ray_Tracer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2C3B102E1A265F0B005069A1 /* Build configuration list for PBXNativeTarget "Ray Tracer" */;
+			buildConfigurationList = 2C3B102E1A265F0B005069A1 /* Build configuration list for PBXNativeTarget "Ray_Tracer" */;
 			buildPhases = (
 				2C3B10231A265F0B005069A1 /* Sources */,
 				2C3B10241A265F0B005069A1 /* Frameworks */,
@@ -77,9 +129,9 @@
 			);
 			dependencies = (
 			);
-			name = "Ray Tracer";
+			name = Ray_Tracer;
 			productName = "Ray Tracer";
-			productReference = 2C3B10271A265F0B005069A1 /* Ray Tracer */;
+			productReference = 2C3B10271A265F0B005069A1 /* Ray_Tracer */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -96,7 +148,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2C3B10221A265F0B005069A1 /* Build configuration list for PBXProject "Ray Tracer" */;
+			buildConfigurationList = 2C3B10221A265F0B005069A1 /* Build configuration list for PBXProject "Ray_Tracer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -108,7 +160,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2C3B10261A265F0B005069A1 /* Ray Tracer */,
+				2C3B10261A265F0B005069A1 /* Ray_Tracer */,
 			);
 		};
 /* End PBXProject section */
@@ -118,7 +170,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C3B10461A27B953005069A1 /* Ray.swift in Sources */,
+				2C3B10381A269F64005069A1 /* Material.swift in Sources */,
+				2C3B103D1A26A32C005069A1 /* Raster.swift in Sources */,
+				2C3B10321A2665F6005069A1 /* Vector3.swift in Sources */,
+				2C3B10341A269121005069A1 /* Shape.swift in Sources */,
+				2C3B10361A269756005069A1 /* Sphere.swift in Sources */,
 				2C3B102B1A265F0B005069A1 /* main.swift in Sources */,
+				2C3B10421A26A632005069A1 /* Raster.c in Sources */,
+				2C3B10481A27C9E7005069A1 /* Scene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,21 +263,28 @@
 		2C3B102F1A265F0B005069A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = Ray_Tracer;
+				SWIFT_OBJC_BRIDGING_HEADER = "Ray Tracer/Ray_Tracer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		2C3B10301A265F0B005069A1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = Ray_Tracer;
+				SWIFT_OBJC_BRIDGING_HEADER = "Ray Tracer/Ray_Tracer-Bridging-Header.h";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2C3B10221A265F0B005069A1 /* Build configuration list for PBXProject "Ray Tracer" */ = {
+		2C3B10221A265F0B005069A1 /* Build configuration list for PBXProject "Ray_Tracer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2C3B102C1A265F0B005069A1 /* Debug */,
@@ -226,13 +293,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2C3B102E1A265F0B005069A1 /* Build configuration list for PBXNativeTarget "Ray Tracer" */ = {
+		2C3B102E1A265F0B005069A1 /* Build configuration list for PBXNativeTarget "Ray_Tracer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2C3B102F1A265F0B005069A1 /* Debug */,
 				2C3B10301A265F0B005069A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
