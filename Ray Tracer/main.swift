@@ -18,7 +18,7 @@ class Tracer
     var eye:Vector3 = Vector3(0,0,-5)
     var lookAt:Vector3 = Vector3(0,0,0)
     var up:Vector3 = Vector3(0,-1,0)
-    var light:Vector3 = Vector3(0, 10, 0)
+    var light:Vector3 = Vector3(2, -10, 5)
     var distance:Float = 1
 
     var eyeDirection:Vector3 = Vector3(0,0,0)
@@ -35,7 +35,9 @@ class Tracer
         initScene()
 
         var raster:Raster = Raster(width, height)
-        println("Start casting")
+        println("Start ray tracing")
+        let startTime = CFAbsoluteTimeGetCurrent()
+        
         for (var y:Int = 0; y < height; y++) {
             if (!quarter && Float(y)/Float(height) >= 0.25) {
                 quarter = true;
@@ -62,7 +64,9 @@ class Tracer
                 raster[x, y] = convertToHex(ray.getColor())
             }
         }
-        println("Done casting")
+        let elapsedTime = CFAbsoluteTimeGetCurrent() - startTime
+        println("Done ray tracing, TIME: \(elapsedTime)")
+        
         raster.saveBitmap("bitmapOutput.bmp")
 //        raster.loadBitmap("bitmapOutput.bmp")
     }
@@ -83,8 +87,11 @@ class Tracer
         scene.eyePosition = self.eye
         scene.lightPosition = self.light
         
-        var sphere:Sphere = Sphere(Vector3(0,0.5,0), 1.0, Vector3(255,0,0));
+        var sphere:Sphere = Sphere(Vector3(0,0.5,0), 1.0, Vector3(255,0,0))
         scene.add(sphere)
+        
+        var sphereGreen:Sphere = Sphere(Vector3(0.0, 0.0, 1.0), 1.0, Vector3(0,255,0))
+//        scene.add(sphereGreen)
     }
     
     private func printlnVector(vec:Vector3) {

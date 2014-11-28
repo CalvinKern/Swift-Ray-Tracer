@@ -14,8 +14,12 @@ public class Shape {
     init() {
         
     }
+
+    public func getIntersection(withRay:Vector3, fromPoint:Vector3) ->Vector3? {
+        return nil
+    }
     
-    public func getIntersection(ray:Vector3) -> Vector3? {
+    public func normal(ofPoint:Vector3) -> Vector3? {
         return nil
     }
 }

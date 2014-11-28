@@ -33,13 +33,16 @@ public class Sphere: Shape {
         self.material = Material(Int(color.x), Int(color.y), Int(color.z))
     }
     
-    public override func getIntersection(ray: Vector3) -> Vector3? {
-        var eye:Vector3 = Scene.sharedInstance.eyePosition
-        var distance:Vector3 = (center - eye)
+    public override func normal(ofPoint: Vector3) -> Vector3? {
+        return (self.center - ofPoint).normalize()
+    }
+    
+    public override func getIntersection(ray: Vector3, fromPoint: Vector3) -> Vector3? {
+        var distance:Vector3 = (fromPoint - self.center)
         
         var a:Float = ray.dot(ray)
         var b:Float = (ray * 2).dot(distance)
-        var c:Float = (distance).dot(distance) - (radius * radius)
+        var c:Float = (distance).dot(distance) - (self.radius * self.radius)
         
         var h:Float = (b * b) - 4 * a * c
         
@@ -48,10 +51,10 @@ public class Sphere: Shape {
             var pos:Float = (-1 * b + h) / (2 * a)
             var neg:Float = (-1 * b - h) / (2 * a)
             
-            var posPoint:Vector3 = eye + (ray * pos)
-            var negPoint:Vector3 = eye + (ray * neg)
+            var posPoint:Vector3 = fromPoint + (ray * pos)
+            var negPoint:Vector3 = fromPoint + (ray * neg)
             
-            if (pos >= 0) {
+            if (pos < 0) {
                 return posPoint
             } else {
                 return negPoint

@@ -16,6 +16,7 @@
 		2C3B10421A26A632005069A1 /* Raster.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10401A26A632005069A1 /* Raster.c */; };
 		2C3B10461A27B953005069A1 /* Ray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10451A27B953005069A1 /* Ray.swift */; };
 		2C3B10481A27C9E7005069A1 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10471A27C9E7005069A1 /* Scene.swift */; };
+		2C3B104B1A285AE4005069A1 /* PointLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B104A1A285AE4005069A1 /* PointLight.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +44,7 @@
 		2C3B10411A26A632005069A1 /* Raster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Raster.h; sourceTree = "<group>"; };
 		2C3B10451A27B953005069A1 /* Ray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ray.swift; sourceTree = "<group>"; };
 		2C3B10471A27C9E7005069A1 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
+		2C3B104A1A285AE4005069A1 /* PointLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointLight.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 			children = (
 				2C3B10331A269121005069A1 /* Shape.swift */,
 				2C3B10351A269756005069A1 /* Sphere.swift */,
+				2C3B104A1A285AE4005069A1 /* PointLight.swift */,
 			);
 			name = Shapes;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				2C3B10321A2665F6005069A1 /* Vector3.swift in Sources */,
 				2C3B10341A269121005069A1 /* Shape.swift in Sources */,
 				2C3B10361A269756005069A1 /* Sphere.swift in Sources */,
+				2C3B104B1A285AE4005069A1 /* PointLight.swift in Sources */,
 				2C3B102B1A265F0B005069A1 /* main.swift in Sources */,
 				2C3B10421A26A632005069A1 /* Raster.c in Sources */,
 				2C3B10481A27C9E7005069A1 /* Scene.swift in Sources */,

@@ -17,8 +17,8 @@ public class Scene  {
 
     private var shapes:Array<Shape> = Array<Shape>()
     private var eye:Vector3 = Vector3(0,0,0)
-    private var light:Vector3 = Vector3(0,0,0)
-    
+    private var light:PointLight = PointLight(point: Vector3(0,0,0))
+
     public var eyePosition:Vector3 {
         get {
             return Vector3(copyVector: eye)
@@ -30,15 +30,21 @@ public class Scene  {
     
     public var lightPosition:Vector3 {
         get {
-            return Vector3(copyVector: light)
+            return Vector3(copyVector: light.lightPosition)
         }
         set (newLightPosition) {
-            light = Vector3(copyVector: newLightPosition)
+            light.lightPosition = Vector3(copyVector: newLightPosition)
+        }
+    }
+    
+    public var lightColor:Vector3 {
+        get {
+            return light.material.color
         }
     }
     
     init() {
-        
+        shapes.append(light)
     }
     
     public func add(shape:Shape) {

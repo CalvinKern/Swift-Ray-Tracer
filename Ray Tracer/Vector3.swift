@@ -65,7 +65,9 @@ public func *(left:Vector3, right:Float) -> Vector3 {
     return Vector3(left.x * right, left.y * right, left.z * right)
 }
 
-
+public func ==(left:Vector3, right:Vector3) -> Bool {
+    return (left.x == right.x) && (left.y == right.y) && (left.z == right.z)
+}
 
 
 //

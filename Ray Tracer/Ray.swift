@@ -13,22 +13,22 @@ public class Ray {
     var color:Vector3 = Vector3(0,0,255)
     
     init(fromEye:Vector3, direction:Vector3) {
-        findFirstIntersection(fromEye, withRay:direction)
+        color = findFirstIntersection(fromEye, withRay:direction, withShadow:true)
     }
     
-    public func findFirstIntersection(withPoint:Vector3, withRay:Vector3) {
+    public func findFirstIntersection(withPoint:Vector3, withRay:Vector3, withShadow:Bool) -> Vector3 {
         
         var shapes:Array<Shape> = Scene.sharedInstance.getShapes()
         
         if (shapes.count == 0) {
-            return
+            return Vector3(0,0,256)
         }
         var firstShape:Shape?
         var firstIntersection:Vector3?
         var firstIntersectionDistance:Float = 0;
         
         for shape in shapes {
-            var intersectPosition:Vector3? = shape.getIntersection(withRay)
+            var intersectPosition:Vector3? = shape.getIntersection(withRay, fromPoint: withPoint)
             if (intersectPosition == nil) {
                 continue
             }
@@ -39,11 +39,38 @@ public class Ray {
                     firstShape = shape
                     firstIntersection = intersectPosition
                     firstIntersectionDistance = intersectionDistance
-                    color = shape.material.color
             }
         }
         
         //TODO: lighting
+        if (withShadow && firstShape != nil) {
+            let lightDirection = (Scene.sharedInstance.lightPosition - withPoint).normalize()
+//            let lightColor = findLightVectorIntersection(firstIntersection!, withLightDirection: lightDirection)
+            let lightDotNorm = lightDirection.dot(firstShape!.normal(firstIntersection!)!)
+
+            let shapeMaterialColor = firstShape!.material.color
+            let lightColor = Scene.sharedInstance.lightColor
+            
+            let red = shapeMaterialColor.x * lightColor.x / 255
+            let green = shapeMaterialColor.y * lightColor.y / 255
+            let blue = shapeMaterialColor.z * lightColor.z / 255
+            
+//            var shapeColor = firstShape!.material.color * Scene.sharedInstance.lightColor * lightDotNorm
+            var shapeColor = Vector3(red, green, blue) * lightDotNorm
+            
+            shapeColor = Vector3(
+                shapeColor.x < 0 ? 0 : shapeColor.x,
+                shapeColor.y < 0 ? 0 : shapeColor.y,
+                shapeColor.z < 0 ? 0 : shapeColor.z)
+            
+            return shapeColor
+        }
+        
+        return Vector3(0,0,256)
+    }
+    
+    public func findLightVectorIntersection(withPoint:Vector3, withLightDirection:Vector3) -> Vector3 {
+        return findFirstIntersection(withPoint, withRay: withLightDirection, withShadow: false)
     }
     
     public func getColor() -> Vector3 {
