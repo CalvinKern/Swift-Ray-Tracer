@@ -44,7 +44,7 @@ public class Scene  {
     }
     
     init() {
-        shapes.append(light)
+//        shapes.append(light)
     }
     
     public func add(shape:Shape) {

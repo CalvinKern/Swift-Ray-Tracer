@@ -33,7 +33,12 @@ public class Vector3 {
     
     // normalize
     public func normalize() -> Vector3 {
-        return (self * (1 / magnitude()))
+        var mag = magnitude()
+        if (mag == 0) {
+            return Vector3(0,0,0)
+        } else {
+            return (self * (1 / mag))
+        }
     }
     
     // dot
@@ -47,6 +52,12 @@ public class Vector3 {
         var y:Float = self.z * otherVector.x - self.x * otherVector.z
         var z:Float = self.x * otherVector.y - self.y * otherVector.x
         return Vector3(x, y, z)
+    }
+    
+    public func squareDistanceTo(point:Vector3) -> Float {
+        var subVector:Vector3 = self - point
+        return ( subVector.x * subVector.x + subVector.y * subVector.y + subVector.z * subVector.z)
+
     }
 }
 
@@ -69,5 +80,8 @@ public func ==(left:Vector3, right:Vector3) -> Bool {
     return (left.x == right.x) && (left.y == right.y) && (left.z == right.z)
 }
 
+public func !=(left:Vector3, right:Vector3) -> Bool {
+    return !(left == right)
+}
 
 //

@@ -1,6 +1,7 @@
 //
 //  Ray.swift
 //  Ray_Tracer
+// Ray direction: (destination - origin)
 //
 //  Created by Calvin Kern on 11/27/14.
 //  Copyright (c) 2014 Calvin Kern. All rights reserved.
@@ -21,7 +22,7 @@ public class Ray {
         var shapes:Array<Shape> = Scene.sharedInstance.getShapes()
         
         if (shapes.count == 0) {
-            return Vector3(0,0,256)
+            return Vector3(0,0,255)
         }
         var firstShape:Shape?
         var firstIntersection:Vector3?
@@ -42,35 +43,60 @@ public class Ray {
             }
         }
         
-        //TODO: lighting
         if (withShadow && firstShape != nil) {
-            let lightDirection = (Scene.sharedInstance.lightPosition - withPoint).normalize()
-//            let lightColor = findLightVectorIntersection(firstIntersection!, withLightDirection: lightDirection)
-            let lightDotNorm = lightDirection.dot(firstShape!.normal(firstIntersection!)!)
-
+            let lightDirection = (Scene.sharedInstance.lightPosition - firstIntersection!).normalize()
+//            let lightDotNorm = Vector3(lightDirection.x, lightDirection.y, lightDirection.z).dot(firstShape!.normal(firstIntersection!)!)
+            let lightDotNorm = firstShape!.normal(firstIntersection!)!.dot(lightDirection)
+            let lightColor = findLightVectorIntersection(firstIntersection!, inShape: firstShape!, withLightDirection: lightDirection)
             let shapeMaterialColor = firstShape!.material.color
-            let lightColor = Scene.sharedInstance.lightColor
             
-            let red = shapeMaterialColor.x * lightColor.x / 255
-            let green = shapeMaterialColor.y * lightColor.y / 255
-            let blue = shapeMaterialColor.z * lightColor.z / 255
+            let red = (shapeMaterialColor.x) * lightColor.x
+            let green = (shapeMaterialColor.y) * lightColor.y
+            let blue = (shapeMaterialColor.z) * lightColor.z
             
 //            var shapeColor = firstShape!.material.color * Scene.sharedInstance.lightColor * lightDotNorm
-            var shapeColor = Vector3(red, green, blue) * lightDotNorm
+            var shapeColor = Vector3(red / 255.0, green / 255.0, blue / 255.0) * lightDotNorm
             
+//            shapeColor = Vector3(abs(shapeColor.x), abs(shapeColor.y), abs(shapeColor.z))
+
+            if (shapeMaterialColor.y == 255.0) {
+//                (Scene.sharedInstance.printlnVector(lightDirection))
+//                shapeColor = Vector3(255,255,255)
+            }
+
             shapeColor = Vector3(
                 shapeColor.x < 0 ? 0 : shapeColor.x,
                 shapeColor.y < 0 ? 0 : shapeColor.y,
                 shapeColor.z < 0 ? 0 : shapeColor.z)
+
+            shapeColor = Vector3(
+                shapeColor.x > 255 ? 255 : shapeColor.x,
+                shapeColor.y > 255 ? 255 : shapeColor.y,
+                shapeColor.z > 255 ? 255 : shapeColor.z)
             
+
             return shapeColor
         }
         
-        return Vector3(0,0,256)
+        return Vector3(81,170,232) // Return sky if no shape intersected
     }
     
-    public func findLightVectorIntersection(withPoint:Vector3, withLightDirection:Vector3) -> Vector3 {
-        return findFirstIntersection(withPoint, withRay: withLightDirection, withShadow: false)
+    public func findLightVectorIntersection(withPoint:Vector3, inShape:Shape, withLightDirection:Vector3) -> Vector3 {
+        var shapes = Scene.sharedInstance.getShapes()
+        for shape in shapes {
+            if (shape === inShape) {
+                continue
+            }
+            else {
+                var intersectPosition:Vector3? = shape.getIntersection(withLightDirection, fromPoint: withPoint)
+                if (intersectPosition != nil) {
+                    return Vector3(100,100,100)
+                } else {
+                    continue
+                }
+            }
+        }
+        return Scene.sharedInstance.lightColor
     }
     
     public func getColor() -> Vector3 {

@@ -10,7 +10,7 @@ import Foundation
 
 public class Material {
     
-    private(set) var color:Vector3 = Vector3(0,0,0)
+    private(set) var color:Vector3 = Vector3(0,255,0)
     
     public init() {
         
