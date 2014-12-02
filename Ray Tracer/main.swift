@@ -14,7 +14,7 @@ class Tracer
     // Scene parameters
     let width:Int = 512
     let height:Int = 512
-    var pixelSize:Float = 1.0/512.0
+    var pixelSize:Float = 0.0
     
 //    let eye:Vector3 = Vector3(6,8,0)
     let eye:Vector3 = Vector3(0,2,5)
@@ -108,7 +108,7 @@ class Tracer
         var sphereWhite:Sphere = Sphere(Vector3(0.0, 0.0, -2.0), 0.5, Vector3(255,255,255))
         scene.add(sphereWhite)
 
-        var spherePlane:Sphere = Sphere(Vector3(0.0, -10000.0, 0.0), 9999, Vector3(180, 65, 250))
+        var spherePlane:Sphere = Sphere(Vector3(0.0, -10000.0, 0.0), 9999.5, Vector3(180, 200, 70))
         scene.add(spherePlane)
         // TODO: add plane
         srand(0)

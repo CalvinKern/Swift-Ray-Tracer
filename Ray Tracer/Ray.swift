@@ -29,17 +29,16 @@ public class Ray {
         var firstIntersectionDistance:Float = 0;
         
         for shape in shapes {
-            var intersectPosition:Vector3? = shape.getIntersection(withRay, fromPoint: withPoint)
-            if (intersectPosition == nil) {
+            let intersect = shape.getIntersection(withRay, fromPoint: withPoint)
+            if (intersect.position == nil) {
                 continue
             }
 
-            var intersectionDistance:Float = getSquaredDistance(withPoint, toPoint: intersectPosition!)
             if (firstShape == nil ||
-                (intersectionDistance < firstIntersectionDistance)) {
+                (intersect.t < firstIntersectionDistance && intersect.t > 0)) {
                     firstShape = shape
-                    firstIntersection = intersectPosition
-                    firstIntersectionDistance = intersectionDistance
+                    firstIntersection = intersect.position
+                    firstIntersectionDistance = intersect.t
             }
         }
         
@@ -88,8 +87,8 @@ public class Ray {
                 continue
             }
             else {
-                var intersectPosition:Vector3? = shape.getIntersection(withLightDirection, fromPoint: withPoint)
-                if (intersectPosition != nil) {
+                let intersect = shape.getIntersection(withLightDirection, fromPoint: withPoint)
+                if (intersect.position != nil) {
                     return Vector3(100,100,100)
                 } else {
                     continue

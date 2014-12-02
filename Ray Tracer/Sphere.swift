@@ -40,9 +40,9 @@ public class Sphere: Shape {
         return (ofPoint - self.center).normalize()
     }
     
-    public override func getIntersection(ray: Vector3, fromPoint: Vector3) -> Vector3? {
+    public override func getIntersection(ray: Vector3, fromPoint: Vector3) -> (t:Float, position:Vector3?) {
         if (ignoreIntersections && fromPoint != Scene.sharedInstance.eyePosition) {
-            return nil
+            return (-1, nil)
         }
         
         var direction:Vector3 = (fromPoint - self.center)
@@ -58,7 +58,7 @@ public class Sphere: Shape {
             var neg:Float = (-1 * b - sqrt(h)) / (2 * a)
             
             if (pos < 0 && neg < 0) {
-                return nil;
+                return (-1.0, nil);
             }
             
             var posPoint:Vector3 = fromPoint + (ray * pos)
@@ -66,9 +66,9 @@ public class Sphere: Shape {
 
             var negDistance = (negPoint - self.center)
             if (pos > neg) {
-                return negPoint
+                return (neg, negPoint)
             } else {
-                return posPoint
+                return (pos, posPoint)
             }
 //            if (fromPoint.squareDistanceTo(posPoint) > fromPoint.squareDistanceTo(negPoint)) {
 //                if (neg < 0) {
@@ -82,7 +82,7 @@ public class Sphere: Shape {
 //            }
 
         }
-        return nil
+        return (-1, nil)
     }
 }
 

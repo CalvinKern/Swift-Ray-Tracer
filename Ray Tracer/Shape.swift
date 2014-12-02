@@ -15,8 +15,8 @@ public class Shape {
         
     }
 
-    public func getIntersection(withRay:Vector3, fromPoint:Vector3) ->Vector3? {
-        return nil
+    public func getIntersection(withRay:Vector3, fromPoint:Vector3) -> (t:Float, position:Vector3?) {
+        return (-1.0, nil)
     }
     
     public func normal(ofPoint:Vector3) -> Vector3? {

@@ -27,12 +27,8 @@ public class PointLight : Shape {
         self.material = Material(255,255,255)
     }
     
-    public override func getIntersection(ray: Vector3, fromPoint: Vector3) -> Vector3? {
-        var distanceVector = lightPosition - fromPoint
-        if (distanceVector.normalize() == ray) {
-            return distanceVector
-        }
+    public override func getIntersection(ray: Vector3, fromPoint: Vector3) -> (t:Float, position:Vector3?) {
         
-        return nil
+        return (-1.0, nil)
     }
 }
