@@ -54,7 +54,12 @@ public class Scene  {
     public func getShapes() -> Array<Shape> {
         return Array<Shape>(shapes)
     }
-    
+
+    public func getSquaredDistance(point:Vector3, toPoint:Vector3) -> Float {
+        var subVector:Vector3 = toPoint - point
+        return ( subVector.x * subVector.x + subVector.y * subVector.y + subVector.z * subVector.z)
+    }
+
     public func printlnVector(vec:Vector3) {
         println(NSString(format: "(%f, %f, %f)", vec.x, vec.y, vec.z))
     }

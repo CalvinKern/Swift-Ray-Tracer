@@ -17,6 +17,10 @@ public class Material {
     }
     
     public init( _ red:Int, _ green:Int, _ blue:Int) {
-        color = Vector3(Float(red), Float(green), Float(blue))
+        self.color = Vector3(Float(red), Float(green), Float(blue))
+    }
+    
+    public init(_ color:Vector3) {
+        self.color = Vector3(copyVector: color)
     }
 }

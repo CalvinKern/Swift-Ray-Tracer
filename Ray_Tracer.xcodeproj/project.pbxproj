@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C04AB991A2D4FEF0046152B /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04AB981A2D4FEF0046152B /* Plane.swift */; };
+		2C04AB9B1A2D8B5B0046152B /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04AB9A1A2D8B5B0046152B /* Box.swift */; };
 		2C3B102B1A265F0B005069A1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B102A1A265F0B005069A1 /* main.swift */; };
 		2C3B10321A2665F6005069A1 /* Vector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10311A2665F6005069A1 /* Vector3.swift */; };
 		2C3B10341A269121005069A1 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B10331A269121005069A1 /* Shape.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		2C04AB981A2D4FEF0046152B /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		2C04AB9A1A2D8B5B0046152B /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		2C3B10271A265F0B005069A1 /* Ray_Tracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Ray_Tracer; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C3B102A1A265F0B005069A1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		2C3B10311A2665F6005069A1 /* Vector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector3.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				2C3B10351A269756005069A1 /* Sphere.swift */,
 				2C3B104A1A285AE4005069A1 /* PointLight.swift */,
 				2C04AB981A2D4FEF0046152B /* Plane.swift */,
+				2C04AB9A1A2D8B5B0046152B /* Box.swift */,
 			);
 			name = Shapes;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				2C3B104B1A285AE4005069A1 /* PointLight.swift in Sources */,
 				2C3B102B1A265F0B005069A1 /* main.swift in Sources */,
 				2C3B10421A26A632005069A1 /* Raster.c in Sources */,
+				2C04AB9B1A2D8B5B0046152B /* Box.swift in Sources */,
 				2C3B10481A27C9E7005069A1 /* Scene.swift in Sources */,
 				2C04AB991A2D4FEF0046152B /* Plane.swift in Sources */,
 			);

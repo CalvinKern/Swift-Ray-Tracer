@@ -12,7 +12,7 @@ public class Plane: Shape {
 
     private(set) var center = Vector3(0,0,0)
     private var planeU = Vector3(1,0,0)
-    private var planeV = Vector3(0,1,0)
+    private var planeV = Vector3(0,0,-1)
 
     override init() {
         super.init()
@@ -44,8 +44,37 @@ public class Plane: Shape {
             return (-1, nil)
         } else {
             var t = top / bottom
+            if (t < 0 || t == 0) {
+                return (-1, nil)
+            }
             return (t, fromPoint + ray * t)
         }
+    }
+    
+    public func pointInBoundedPlane(withPoint:Vector3, withPlaneSize:Float) -> Bool {
+        let size = withPlaneSize/2
+        
+        let topDirection = (self.center + self.planeU * size) - withPoint
+        let bottomDirection = (self.center - self.planeU * size) - withPoint
+        let rightDirection = (self.center + self.planeV * size) - withPoint
+        let leftDirection = (self.center - self.planeV * size) - withPoint
+        
+        if (topDirection.dot(planeU) < 0) {
+            return false
+        } else if (bottomDirection.dot(planeU * -1) < 0) {
+            return false
+        } else if (rightDirection.dot(planeV) < 0) {
+            return false
+        } else if (leftDirection.dot(planeV * -1) < 0) {
+            return false
+        } else  {
+            return true
+        }
+    }
+    
+    public func validPoint(withPoint:Vector3) -> Bool {
+        let value = (self.center - withPoint).dot(normal(withPoint)!)
+        return (value < 0.0001) && (value > -0.0001)
     }
 }
 

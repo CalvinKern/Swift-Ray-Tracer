@@ -14,13 +14,13 @@ class Tracer
     // Scene parameters
     let width:Int = 512
     let height:Int = 512
-    var pixelSize:Float = 0.0
+    var pixelSize:Float = 512
     
-//    let eye:Vector3 = Vector3(6,8,0)
-    let eye:Vector3 = Vector3(0,2,5)
-    let lookAt:Vector3 = Vector3(0,0,0)
+    let eye:Vector3 = Vector3(6,2,0)
+//    let eye:Vector3 = Vector3(5,1,0)
+    let lookAt:Vector3 = Vector3(0,0,-1.5)
     let up:Vector3 = Vector3(0,1,0)
-    let light:Vector3 = Vector3(6, 4, 2)
+    let light:Vector3 = Vector3(2, 4, 2)
     let distance:Float = 1
 
     var eyeDirection:Vector3 = Vector3(0,0,0)
@@ -82,7 +82,7 @@ class Tracer
         screenV = rEyeDirection.cross(screenU).normalize()
         
         var size:Float = ( 0.577 * 2 * self.distance)
-        self.pixelSize = size/512
+        self.pixelSize = size/self.pixelSize
         self.bottomLeft = screenCenter - (screenU * 0.5 * size) - (screenV * 0.5 * size)
     }
     
@@ -96,25 +96,32 @@ class Tracer
 //        lightSphere.ignoreIntersections = true
 //        scene.add(lightSphere)
 
-        var sphereRed:Sphere = Sphere(Vector3(2.0, 0.95, -2.0), 0.3, Vector3(255,0,0))
+        let sphereRed:Sphere = Sphere(Vector3(2.0, 1.55, -2.0), 0.3, Vector3(255,0,0))
         scene.add(sphereRed)
         
-        var sphereGreen:Sphere = Sphere(Vector3(2.0, 0.5, -2.0), 0.5, Vector3(0,255,0))
+        let sphereGreen:Sphere = Sphere(Vector3(2.0, 1.0, -2.0), 0.5, Vector3(0,255,0))
         scene.add(sphereGreen)
 
-        var spherePurple:Sphere = Sphere(Vector3(2.0, 0.0, -2.0), 0.6, Vector3(190,0,190))
+        let spherePurple:Sphere = Sphere(Vector3(2.0, 0.5, -2.0), 0.6, Vector3(190,0,190))
         scene.add(spherePurple)
 
-        var sphereWhite:Sphere = Sphere(Vector3(0.0, 0.0, -2.0), 0.5, Vector3(255,255,255))
+        let sphereWhite:Sphere = Sphere(Vector3(0.0, 0.5, -2.0), 0.5, Vector3(255,255,255))
         scene.add(sphereWhite)
 
-        var spherePlane:Sphere = Sphere(Vector3(0.0, -10000.0, 0.0), 9999.5, Vector3(180, 200, 70))
-        scene.add(spherePlane)
-        // TODO: add plane
+//        var spherePlane:Sphere = Sphere(Vector3(0.0, -10000.0, 0.0), 9999.5, Vector3(180, 200, 70))
+//        scene.add(spherePlane)
+
+        let plane = Plane(center: Vector3(0,0,0))
+        scene.add(plane)
+        
+        let box = Box(center: Vector3(-2,0.5,0), color: Vector3(190, 150, 20))
+        scene.add(box)
+        
         srand(0)
     }
 
     private func singlePixelSample(pixelPositionX:Int, pixelPositionY:Int) -> Vector3 {
+        
         var rayDirection = (getRayDirection(Float(pixelPositionX), pixelPositionY: Float(pixelPositionY))).normalize()
         var ray = Ray(fromEye: eye, direction:rayDirection)
         
