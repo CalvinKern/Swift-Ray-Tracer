@@ -39,7 +39,7 @@ public class Scene  {
     
     public var lightColor:Vector3 {
         get {
-            return light.material.color
+            return light.material.getMaterialColor(Vector3(0,0,0))
         }
     }
     

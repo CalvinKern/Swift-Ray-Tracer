@@ -21,6 +21,13 @@ public class Plane: Shape {
     init(center:Vector3) {
         super.init()
         self.center = center
+        self.material = Material(Vector3(150,150,150))
+    }
+    
+    init(center:Vector3, color:Vector3) {
+        super.init()
+        self.center = Vector3(copyVector: center)
+        self.material = Material(Vector3(copyVector: color))
     }
     
     init(center:Vector3, planeU:Vector3, planeV:Vector3) {
@@ -55,21 +62,30 @@ public class Plane: Shape {
         let size = withPlaneSize/2
         
         let topDirection = (self.center + self.planeU * size) - withPoint
-        let bottomDirection = (self.center - self.planeU * size) - withPoint
-        let rightDirection = (self.center + self.planeV * size) - withPoint
-        let leftDirection = (self.center - self.planeV * size) - withPoint
         
         if (topDirection.dot(planeU) < 0) {
             return false
-        } else if (bottomDirection.dot(planeU * -1) < 0) {
-            return false
-        } else if (rightDirection.dot(planeV) < 0) {
-            return false
-        } else if (leftDirection.dot(planeV * -1) < 0) {
-            return false
-        } else  {
-            return true
         }
+        
+        let bottomDirection = (self.center - self.planeU * size) - withPoint
+
+        if (bottomDirection.dot(planeU * -1) < 0) {
+            return false
+        }
+        
+        let rightDirection = (self.center + self.planeV * size) - withPoint
+
+        if (rightDirection.dot(planeV) < 0) {
+            return false
+        }
+        
+        let leftDirection = (self.center - self.planeV * size) - withPoint
+
+        if (leftDirection.dot(planeV * -1) < 0) {
+            return false
+        }
+        
+        return true
     }
     
     public func validPoint(withPoint:Vector3) -> Bool {

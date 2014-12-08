@@ -10,6 +10,7 @@ import Foundation
 
 public class Shape {
     internal(set) var material:Material = Material()
+    internal var isReflective:Bool = false
     
     init() {
         

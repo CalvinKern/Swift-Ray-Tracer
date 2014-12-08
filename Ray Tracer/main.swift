@@ -16,9 +16,9 @@ class Tracer
     let height:Int = 512
     var pixelSize:Float = 512
     
-    let eye:Vector3 = Vector3(6,2,0)
+    let eye:Vector3 = Vector3(1,1.5,5)
 //    let eye:Vector3 = Vector3(5,1,0)
-    let lookAt:Vector3 = Vector3(0,0,-1.5)
+    let lookAt:Vector3 = Vector3(0,0,0)
     let up:Vector3 = Vector3(0,1,0)
     let light:Vector3 = Vector3(2, 4, 2)
     let distance:Float = 1
@@ -91,10 +91,6 @@ class Tracer
         
         scene.eyePosition = self.eye
         scene.lightPosition = self.light
-        
-//        var lightSphere:Sphere = Sphere(Vector3(2,3,0), 0.5, Vector3(190,0,190))
-//        lightSphere.ignoreIntersections = true
-//        scene.add(lightSphere)
 
         let sphereRed:Sphere = Sphere(Vector3(2.0, 1.55, -2.0), 0.3, Vector3(255,0,0))
         scene.add(sphereRed)
@@ -106,12 +102,11 @@ class Tracer
         scene.add(spherePurple)
 
         let sphereWhite:Sphere = Sphere(Vector3(0.0, 0.5, -2.0), 0.5, Vector3(255,255,255))
+        sphereWhite.isReflective = true
         scene.add(sphereWhite)
 
-//        var spherePlane:Sphere = Sphere(Vector3(0.0, -10000.0, 0.0), 9999.5, Vector3(180, 200, 70))
-//        scene.add(spherePlane)
-
-        let plane = Plane(center: Vector3(0,0,0))
+        let plane = Plane(center: Vector3(0,0,0), color: Vector3(0,39,155))
+        plane.material.materialChecker = Vector3(0,0,0)
         scene.add(plane)
         
         let box = Box(center: Vector3(-2,0.5,0), color: Vector3(190, 150, 20))

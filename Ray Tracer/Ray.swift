@@ -17,7 +17,7 @@ public class Ray {
         color = findFirstIntersection(fromEye, withRay:direction, withShadow:true)
     }
     
-    public func findFirstIntersection(withPoint:Vector3, withRay:Vector3, withShadow:Bool) -> Vector3 {
+    public func findFirstIntersection(withPoint:Vector3, withRay:Vector3, withShadow:Bool, withBounceCount:Int = 1) -> Vector3 {
         
         var shapes:Array<Shape> = Scene.sharedInstance.getShapes()
         
@@ -42,39 +42,38 @@ public class Ray {
             }
         }
         
-        if (withShadow && firstShape != nil) {
-            let lightDirection = (Scene.sharedInstance.lightPosition - firstIntersection!).normalize()
-//            let lightDotNorm = Vector3(lightDirection.x, lightDirection.y, lightDirection.z).dot(firstShape!.normal(firstIntersection!)!)
-            let lightDotNorm = firstShape!.normal(firstIntersection!)!.dot(lightDirection)
-            let lightColor = findLightVectorIntersection(firstIntersection!, inShape: firstShape!, withLightDirection: lightDirection)
-            let shapeMaterialColor = firstShape!.material.color
-            
-            let red = (shapeMaterialColor.x) * lightColor.x
-            let green = (shapeMaterialColor.y) * lightColor.y
-            let blue = (shapeMaterialColor.z) * lightColor.z
-            
-//            var shapeColor = firstShape!.material.color * Scene.sharedInstance.lightColor * lightDotNorm
-            var shapeColor = Vector3(red / 255.0, green / 255.0, blue / 255.0) * lightDotNorm
-            
-//            shapeColor = Vector3(abs(shapeColor.x), abs(shapeColor.y), abs(shapeColor.z))
-
-            if (shapeMaterialColor.y == 255.0) {
-//                (Scene.sharedInstance.printlnVector(lightDirection))
-//                shapeColor = Vector3(255,255,255)
+        if (firstShape != nil) {
+            if (firstShape!.isReflective) {// && withBounceCount != 0) {
+                let norm = firstShape!.normal(firstIntersection!)!
+                let incomingRay = withRay * -1
+                let rayDir = ((norm * ((incomingRay.dot(norm)) * 2) - incomingRay)).normalize()
+                firstIntersection = firstIntersection! + rayDir * 0.01
+                return findFirstIntersection(firstIntersection!, withRay: rayDir, withShadow: true, withBounceCount: withBounceCount - 1)
+            } else if (withShadow) {
+                let lightDirection = (Scene.sharedInstance.lightPosition - firstIntersection!).normalize()
+                let lightDotNorm = firstShape!.normal(firstIntersection!)!.dot(lightDirection)
+                let lightColor = findLightVectorIntersection(firstIntersection!, inShape: firstShape!, withLightDirection: lightDirection)
+                let shapeMaterialColor = firstShape!.material.getMaterialColor(firstIntersection!)
+                
+                let red = (shapeMaterialColor.x) * lightColor.x
+                let green = (shapeMaterialColor.y) * lightColor.y
+                let blue = (shapeMaterialColor.z) * lightColor.z
+                
+                var shapeColor = Vector3(red / 255.0, green / 255.0, blue / 255.0) * lightDotNorm
+                
+                shapeColor = Vector3(
+                    shapeColor.x < 0 ? 0 : shapeColor.x,
+                    shapeColor.y < 0 ? 0 : shapeColor.y,
+                    shapeColor.z < 0 ? 0 : shapeColor.z)
+                
+                shapeColor = Vector3(
+                    shapeColor.x > 255 ? 255 : shapeColor.x,
+                    shapeColor.y > 255 ? 255 : shapeColor.y,
+                    shapeColor.z > 255 ? 255 : shapeColor.z)
+                
+                
+                return shapeColor
             }
-
-            shapeColor = Vector3(
-                shapeColor.x < 0 ? 0 : shapeColor.x,
-                shapeColor.y < 0 ? 0 : shapeColor.y,
-                shapeColor.z < 0 ? 0 : shapeColor.z)
-
-            shapeColor = Vector3(
-                shapeColor.x > 255 ? 255 : shapeColor.x,
-                shapeColor.y > 255 ? 255 : shapeColor.y,
-                shapeColor.z > 255 ? 255 : shapeColor.z)
-            
-
-            return shapeColor
         }
         
         return Vector3(81,170,232) // Return sky if no shape intersected

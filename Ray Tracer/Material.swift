@@ -7,11 +7,29 @@
 //
 
 import Foundation
+import Darwin
 
 public class Material {
     
-    private(set) var color:Vector3 = Vector3(0,255,0)
+    private var color:Vector3 = Vector3(0,255,0)
+    private var checker:Vector3?
     
+    public var materialChecker:Vector3? {
+        get {
+            if (checker != nil) {
+                return Vector3(copyVector: checker!)
+            } else {
+                return nil
+            }
+        }
+        set (value) {
+            if (value != nil) {
+                checker = Vector3(copyVector: value!)
+            } else {
+                checker = nil
+            }
+        }
+    }
     public init() {
         
     }
@@ -23,4 +41,26 @@ public class Material {
     public init(_ color:Vector3) {
         self.color = Vector3(copyVector: color)
     }
+    
+    public init( materialColor:Vector3, checkerColor:Vector3) {
+        self.color = Vector3(copyVector: materialColor)
+        self.checker = Vector3(copyVector: checkerColor)
+    }
+    
+    public func getMaterialColor(withPoint:Vector3) -> Vector3 {
+        if (checker != nil) {
+           if (abs(floorf(withPoint.x) % 2) == 0 &&
+            abs(floorf(withPoint.z) % 2) == 0) {
+                return Vector3(copyVector: checker!)
+           } else if (abs(floorf(withPoint.x) % 2) == 1 && abs(floorf(withPoint.z) % 2) == 1) {
+                return Vector3(copyVector: checker!)
+           }
+        }
+        return Vector3(copyVector: color)
+    }
 }
+
+
+
+
+//

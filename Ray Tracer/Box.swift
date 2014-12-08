@@ -48,23 +48,14 @@ public class Box: Shape {
         faces.append(Plane(center: Vector3(center.x - size, center.y, center.z), planeU: Vector3(0,0,1), planeV: Vector3(0,1,0))) //Left
     }
     
-    var breakCount:Int = 0
     public override func normal(ofPoint: Vector3) -> Vector3? {
         
         for plane in faces {
             if (plane.validPoint(ofPoint)) {
-                let norm = plane.normal(ofPoint)
-//                Scene.sharedInstance.printlnVector(plane.center)
-//                if (plane.center.z == center.z + size/2) {
-//                    Scene.sharedInstance.printlnVector(norm!)
-//                }
-                return norm
-                //            return plane.normal(ofPoint)
+                return plane.normal(ofPoint)
             }
         }
-        breakCount++
-        println(breakCount);
-        return Vector3(0,0,0)
+        return nil
     }
     
     // TODO: additional normal function for optimizing so that you don't have to do a loop every normal through each plane
