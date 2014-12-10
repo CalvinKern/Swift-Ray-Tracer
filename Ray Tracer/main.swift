@@ -69,7 +69,7 @@ class Tracer
         
         raster.saveBitmap("bitmapOutput.bmp")
         println("Opening Bitmap")
-//        raster.openBitmap()
+        raster.openBitmap()
         println("Bitmap Opened")
 //        raster.loadBitmap("bitmapOutput.bmp")
     }

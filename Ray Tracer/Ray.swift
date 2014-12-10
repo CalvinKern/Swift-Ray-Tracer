@@ -52,7 +52,7 @@ public class Ray {
                 let lightDotNorm = firstShape!.normal(firstIntersection!)!.dot(lightDirection)
                 
                 let reflect = getRayReflectionVectorWith(shape: firstShape!, withRay: lightDirection * -1, atIntersection: firstIntersection!, withBounceCount: withBounceCount - 1)
-                let reflectDotView = pow(reflect.dir.dot(withRay * -1), 5)
+                let reflectDotView = pow(reflect.dir.dot(withRay * -1), 50)
                 
                 let lightColor = findLightVectorIntersection(firstIntersection!, inShape: firstShape!, withLightDirection: lightDirection)
                 let shapeMaterialColor = firstShape!.material.getMaterialColor(firstIntersection!)
