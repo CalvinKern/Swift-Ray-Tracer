@@ -50,6 +50,10 @@ public class Ray {
                 
                 let lightDirection = (Scene.sharedInstance.lightPosition - firstIntersection!).normalize()
                 let lightDotNorm = firstShape!.normal(firstIntersection!)!.dot(lightDirection)
+                
+                let reflect = getRayReflectionVectorWith(shape: firstShape!, withRay: lightDirection * -1, atIntersection: firstIntersection!, withBounceCount: withBounceCount - 1)
+                let reflectDotView = pow(reflect.dir.dot(withRay * -1), 5)
+                
                 let lightColor = findLightVectorIntersection(firstIntersection!, inShape: firstShape!, withLightDirection: lightDirection)
                 let shapeMaterialColor = firstShape!.material.getMaterialColor(firstIntersection!)
                 
@@ -57,8 +61,12 @@ public class Ray {
                 let green = (shapeMaterialColor.y) * lightColor.y
                 let blue = (shapeMaterialColor.z) * lightColor.z
                 
-                var shapeColor = Vector3(red / 255.0, green / 255.0, blue / 255.0) * lightDotNorm
+                let ambient = Vector3(red / 255.0, green / 255.0, blue / 255.0)
+                let diffuse = ambient * lightDotNorm
+                let specular = ambient * reflectDotView
 
+                var shapeColor = (ambient * 0.1) + diffuse + specular
+                
                 shapeColor = Vector3(
                     shapeColor.x < 0 ? 0 : shapeColor.x,
                     shapeColor.y < 0 ? 0 : shapeColor.y,

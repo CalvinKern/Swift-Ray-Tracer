@@ -16,8 +16,8 @@ class Tracer
     let height:Int = 512
     var pixelSize:Float = 512
     
-//    let eye:Vector3 = Vector3(1,1.5,5)
-    let eye:Vector3 = Vector3(7,5,2)
+    let eye:Vector3 = Vector3(1,1.5,5)
+//    let eye:Vector3 = Vector3(7,5,2)
     let lookAt:Vector3 = Vector3(0,0,0)
     let up:Vector3 = Vector3(0,1,0)
     let light:Vector3 = Vector3(2, 4, 2)
