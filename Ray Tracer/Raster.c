@@ -9,6 +9,7 @@
 #include "Raster.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <unistd.h>
 
 void LoadBitmap(const char* path, int* bitmapWidth, int* bitmapHeight, uint32_t** bitmapData)
 {
@@ -177,3 +178,16 @@ void SaveBitmap(const char* path, int bitmapWidth, int bitmapHeight, const uint3
     // Cleanup
     fclose(file);
 }
+
+void OpenBitmap() {
+    char* name[4];
+    name[0] = "sh";
+    name[1] = "-c";
+    name[2] = "open /Users/calvinkern/Library/Developer/Xcode/DerivedData/Ray_Tracer-dchgeqgmvwoennabejquhbdfvwfb/Build/Products/Debug/bitmapOutput.bmp";
+    name[3] = NULL;
+    execvp("/bin/sh", name);
+}
+
+
+
+//

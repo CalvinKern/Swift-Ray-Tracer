@@ -16,8 +16,8 @@ class Tracer
     let height:Int = 512
     var pixelSize:Float = 512
     
-    let eye:Vector3 = Vector3(1,1.5,5)
-//    let eye:Vector3 = Vector3(5,1,0)
+//    let eye:Vector3 = Vector3(1,1.5,5)
+    let eye:Vector3 = Vector3(7,5,2)
     let lookAt:Vector3 = Vector3(0,0,0)
     let up:Vector3 = Vector3(0,1,0)
     let light:Vector3 = Vector3(2, 4, 2)
@@ -68,6 +68,9 @@ class Tracer
         println("Done ray tracing, TIME: \(elapsedTime)")
         
         raster.saveBitmap("bitmapOutput.bmp")
+        println("Opening Bitmap")
+//        raster.openBitmap()
+        println("Bitmap Opened")
 //        raster.loadBitmap("bitmapOutput.bmp")
     }
     
@@ -92,24 +95,32 @@ class Tracer
         scene.eyePosition = self.eye
         scene.lightPosition = self.light
 
-        let sphereRed:Sphere = Sphere(Vector3(2.0, 1.55, -2.0), 0.3, Vector3(255,0,0))
+        let snowmanX:Float = 1.0
+        let snowmanZ:Float = 0.0
+        let sphereRed:Sphere = Sphere(Vector3(snowmanX, 1.55, snowmanZ), 0.3, Vector3(255,0,0))
         scene.add(sphereRed)
         
-        let sphereGreen:Sphere = Sphere(Vector3(2.0, 1.0, -2.0), 0.5, Vector3(0,255,0))
+        let sphereGreen:Sphere = Sphere(Vector3(snowmanX, 1.0, snowmanZ), 0.5, Vector3(0,255,0))
+        sphereGreen.isMetallic = true
+        sphereGreen.reflectiveValue = 0.4
         scene.add(sphereGreen)
 
-        let spherePurple:Sphere = Sphere(Vector3(2.0, 0.5, -2.0), 0.6, Vector3(190,0,190))
+        let spherePurple:Sphere = Sphere(Vector3(snowmanX, 0.5, snowmanZ), 0.6, Vector3(190,0,190))
         scene.add(spherePurple)
 
-        let sphereWhite:Sphere = Sphere(Vector3(0.0, 0.5, -2.0), 0.5, Vector3(255,255,255))
-        sphereWhite.isReflective = true
-        scene.add(sphereWhite)
+        let sphereMirror:Sphere = Sphere(Vector3(-0.25, 1.5, 0.25), 0.3, Vector3(255,255,255))
+        sphereMirror.isMetallic = true
+        sphereMirror.reflectiveValue = 0.9
+        scene.add(sphereMirror)
 
-        let plane = Plane(center: Vector3(0,0,0), color: Vector3(0,39,155))
+        let plane = Plane(center: Vector3(0,0,0), color: Vector3(250,250,0))
+        plane.size = 8
         plane.material.materialChecker = Vector3(0,0,0)
         scene.add(plane)
         
-        let box = Box(center: Vector3(-2,0.5,0), color: Vector3(190, 150, 20))
+        let box = Box(center: Vector3(-0.5,0.5,0.25), color: Vector3(190, 150, 20))
+        box.isMetallic = true;
+        box.reflectiveValue = 0.1
         scene.add(box)
         
         srand(0)

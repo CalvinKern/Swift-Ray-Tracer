@@ -11,6 +11,8 @@ import Foundation
 public class Shape {
     internal(set) var material:Material = Material()
     internal var isReflective:Bool = false
+    internal var isMetallic:Bool = false
+    internal var reflectiveValue:Float = 1.0
     
     init() {
         

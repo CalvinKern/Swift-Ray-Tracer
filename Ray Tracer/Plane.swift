@@ -13,6 +13,7 @@ public class Plane: Shape {
     private(set) var center = Vector3(0,0,0)
     private var planeU = Vector3(1,0,0)
     private var planeV = Vector3(0,0,-1)
+    internal var size:Float?
 
     override init() {
         super.init()
@@ -54,7 +55,14 @@ public class Plane: Shape {
             if (t < 0 || t == 0) {
                 return (-1, nil)
             }
-            return (t, fromPoint + ray * t)
+            let intersectPosition = fromPoint + ray * t
+
+            if (size != nil) {
+                if (!pointInBoundedPlane(intersectPosition, withPlaneSize: size!)) {
+                    return (-1, nil)
+                }
+            }
+            return (t, intersectPosition)
         }
     }
     

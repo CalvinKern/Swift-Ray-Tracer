@@ -69,6 +69,11 @@ public class Raster
         }
     }
     
+    public func openBitmap()
+    {
+        OpenBitmap()
+    }
+    
     public func saveBitmap(path:String)
     {
         SaveBitmap(path, Int32(_width), Int32(_height), _data)

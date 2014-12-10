@@ -14,7 +14,7 @@ public class Ray {
     var color:Vector3 = Vector3(0,0,255)
     
     init(fromEye:Vector3, direction:Vector3) {
-        color = findFirstIntersection(fromEye, withRay:direction, withShadow:true)
+        color = findFirstIntersection(fromEye, withRay:direction, withShadow:true, withBounceCount:2)
     }
     
     public func findFirstIntersection(withPoint:Vector3, withRay:Vector3, withShadow:Bool, withBounceCount:Int = 1) -> Vector3 {
@@ -44,12 +44,10 @@ public class Ray {
         
         if (firstShape != nil) {
             if (firstShape!.isReflective) {// && withBounceCount != 0) {
-                let norm = firstShape!.normal(firstIntersection!)!
-                let incomingRay = withRay * -1
-                let rayDir = ((norm * ((incomingRay.dot(norm)) * 2) - incomingRay)).normalize()
-                firstIntersection = firstIntersection! + rayDir * 0.01
-                return findFirstIntersection(firstIntersection!, withRay: rayDir, withShadow: true, withBounceCount: withBounceCount - 1)
+                let ray = getRayReflectionVectorWith(shape: firstShape!, withRay: withRay, atIntersection: firstIntersection!, withBounceCount: withBounceCount);
+                return findFirstIntersection(ray.intersection, withRay: ray.dir, withShadow: true, withBounceCount: withBounceCount - 1)
             } else if (withShadow) {
+                
                 let lightDirection = (Scene.sharedInstance.lightPosition - firstIntersection!).normalize()
                 let lightDotNorm = firstShape!.normal(firstIntersection!)!.dot(lightDirection)
                 let lightColor = findLightVectorIntersection(firstIntersection!, inShape: firstShape!, withLightDirection: lightDirection)
@@ -60,7 +58,7 @@ public class Ray {
                 let blue = (shapeMaterialColor.z) * lightColor.z
                 
                 var shapeColor = Vector3(red / 255.0, green / 255.0, blue / 255.0) * lightDotNorm
-                
+
                 shapeColor = Vector3(
                     shapeColor.x < 0 ? 0 : shapeColor.x,
                     shapeColor.y < 0 ? 0 : shapeColor.y,
@@ -70,8 +68,14 @@ public class Ray {
                     shapeColor.x > 255 ? 255 : shapeColor.x,
                     shapeColor.y > 255 ? 255 : shapeColor.y,
                     shapeColor.z > 255 ? 255 : shapeColor.z)
-                
-                
+
+                if (firstShape!.isMetallic) {
+                    let ray = getRayReflectionVectorWith(shape: firstShape!, withRay: withRay, atIntersection: firstIntersection!, withBounceCount: withBounceCount);
+                    let metallicColor = findFirstIntersection(ray.intersection, withRay: ray.dir, withShadow: true, withBounceCount: withBounceCount - 1)
+                    
+                    shapeColor = shapeColor * (1.0 - firstShape!.reflectiveValue) + metallicColor * firstShape!.reflectiveValue
+                }
+
                 return shapeColor
             }
         }
@@ -104,5 +108,15 @@ public class Ray {
     private func getSquaredDistance(point:Vector3, toPoint:Vector3) -> Float {
         var subVector:Vector3 = toPoint - point
         return ( subVector.x * subVector.x + subVector.y * subVector.y + subVector.z * subVector.z)
+    }
+    
+    private func getRayReflectionVectorWith(shape firstShape:Shape, withRay:Vector3, atIntersection firstIntersection:Vector3, withBounceCount:Int)
+        -> (dir:Vector3, intersection:Vector3) {
+        let norm = firstShape.normal(firstIntersection)!
+        let incomingRay = withRay * -1
+        let rayDir = ((norm * ((incomingRay.dot(norm)) * 2) - incomingRay)).normalize()
+        let intersection = firstIntersection + rayDir * 0.001
+        return (rayDir, intersection)
+
     }
 }
