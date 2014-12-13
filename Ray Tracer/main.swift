@@ -12,9 +12,9 @@ import Foundation
 class Tracer
 {
     // Scene parameters
-    let width:Int = 1024
-    let height:Int = 1024
-    var pixelSize:Float = 1024
+    let width:Int = 512
+    let height:Int = 512
+    var pixelSize:Float = 512
     var samplesPerPixel:Int = 1
     
     //    var eye:Vector3 = Vector3(0.25,1.5,0.3)
