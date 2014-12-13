@@ -10,11 +10,11 @@
 import Foundation
 
 public class Ray {
-
+    
     var color:Vector3 = Vector3(0,0,255)
     
     init(fromEye:Vector3, direction:Vector3) {
-        color = findFirstIntersection(fromEye, withRay:direction, withShadow:true, withBounceCount:2)
+        color = findFirstIntersection(fromEye, withRay:direction, withShadow:true, withBounceCount:8)
     }
     
     public func findFirstIntersection(withPoint:Vector3, withRay:Vector3, withShadow:Bool, withBounceCount:Int = 1) -> Vector3 {
@@ -24,6 +24,7 @@ public class Ray {
         if (shapes.count == 0) {
             return Vector3(0,0,255)
         }
+        
         var firstShape:Shape?
         var firstIntersection:Vector3?
         var firstIntersectionDistance:Float = 0;
@@ -33,7 +34,7 @@ public class Ray {
             if (intersect.position == nil) {
                 continue
             }
-
+            
             if (firstShape == nil ||
                 (intersect.t < firstIntersectionDistance && intersect.t > 0)) {
                     firstShape = shape
@@ -54,17 +55,20 @@ public class Ray {
                 let reflect = getRayReflectionVectorWith(shape: firstShape!, withRay: lightDirection * -1, atIntersection: firstIntersection!, withBounceCount: withBounceCount - 1)
                 let reflectDotView = pow(reflect.dir.dot(withRay * -1), 50)
                 
-                let lightColor = findLightVectorIntersection(firstIntersection!, inShape: firstShape!, withLightDirection: lightDirection)
+                let epsilonIntersection = getIntersectionEpsilon(firstIntersection!, withRayDirection: lightDirection)
+                let lightColor = findLightVectorIntersection(epsilonIntersection, inShape: firstShape!, withLightDirection: lightDirection)
                 let shapeMaterialColor = firstShape!.material.getMaterialColor(firstIntersection!)
                 
                 let red = (shapeMaterialColor.x) * lightColor.x
                 let green = (shapeMaterialColor.y) * lightColor.y
                 let blue = (shapeMaterialColor.z) * lightColor.z
                 
-                let ambient = Vector3(red / 255.0, green / 255.0, blue / 255.0)
-                let diffuse = ambient * lightDotNorm
-                let specular = ambient * reflectDotView
+                let colorWithLight = Vector3(red / 255.0, green / 255.0, blue / 255.0)
 
+                let ambient = Vector3(copyVector:shapeMaterialColor)
+                let diffuse = colorWithLight * lightDotNorm
+                let specular = colorWithLight * reflectDotView
+                
                 var shapeColor = (ambient * 0.1) + diffuse + specular
                 
                 shapeColor = Vector3(
@@ -76,14 +80,14 @@ public class Ray {
                     shapeColor.x > 255 ? 255 : shapeColor.x,
                     shapeColor.y > 255 ? 255 : shapeColor.y,
                     shapeColor.z > 255 ? 255 : shapeColor.z)
-
-                if (firstShape!.isMetallic) {
+                
+                if (firstShape!.isMetallic && withBounceCount != 0) {
                     let ray = getRayReflectionVectorWith(shape: firstShape!, withRay: withRay, atIntersection: firstIntersection!, withBounceCount: withBounceCount);
                     let metallicColor = findFirstIntersection(ray.intersection, withRay: ray.dir, withShadow: true, withBounceCount: withBounceCount - 1)
                     
                     shapeColor = shapeColor * (1.0 - firstShape!.reflectiveValue) + metallicColor * firstShape!.reflectiveValue
                 }
-
+                
                 return shapeColor
             }
         }
@@ -94,16 +98,9 @@ public class Ray {
     public func findLightVectorIntersection(withPoint:Vector3, inShape:Shape, withLightDirection:Vector3) -> Vector3 {
         var shapes = Scene.sharedInstance.getShapes()
         for shape in shapes {
-            if (shape === inShape) {
-                continue
-            }
-            else {
-                let intersect = shape.getIntersection(withLightDirection, fromPoint: withPoint)
-                if (intersect.position != nil) {
-                    return Vector3(100,100,100)
-                } else {
-                    continue
-                }
+            let intersect = shape.getIntersection(withLightDirection, fromPoint: withPoint)
+            if (intersect.position != nil) {
+                return Vector3(0,0,0)
             }
         }
         return Scene.sharedInstance.lightColor
@@ -120,11 +117,14 @@ public class Ray {
     
     private func getRayReflectionVectorWith(shape firstShape:Shape, withRay:Vector3, atIntersection firstIntersection:Vector3, withBounceCount:Int)
         -> (dir:Vector3, intersection:Vector3) {
-        let norm = firstShape.normal(firstIntersection)!
-        let incomingRay = withRay * -1
-        let rayDir = ((norm * ((incomingRay.dot(norm)) * 2) - incomingRay)).normalize()
-        let intersection = firstIntersection + rayDir * 0.001
-        return (rayDir, intersection)
-
+            let norm = firstShape.normal(firstIntersection)!
+            let incomingRay = withRay * -1
+            let rayDir = ((norm * ((incomingRay.dot(norm)) * 2) - incomingRay)).normalize()
+            let intersection = getIntersectionEpsilon(firstIntersection, withRayDirection: incomingRay)
+            return (rayDir, intersection)
+    }
+    
+    private func getIntersectionEpsilon(intersection:Vector3, withRayDirection:Vector3) -> Vector3 {
+        return intersection + withRayDirection * 0.001
     }
 }

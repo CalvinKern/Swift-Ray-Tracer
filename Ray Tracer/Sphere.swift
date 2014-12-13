@@ -53,7 +53,7 @@ public class Sphere: Shape {
         
         var h:Float = (b * b) - (4 * a * c)
         
-        if ( h >= 0) {
+        if ( h > 0) {
             var pos:Float = (-1 * b + sqrt(h)) / (2 * a)
             var neg:Float = (-1 * b - sqrt(h)) / (2 * a)
             

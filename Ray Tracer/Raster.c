@@ -183,7 +183,8 @@ void OpenBitmap() {
     char* name[4];
     name[0] = "sh";
     name[1] = "-c";
-    name[2] = "open /Users/calvinkern/Library/Developer/Xcode/DerivedData/Ray_Tracer-dchgeqgmvwoennabejquhbdfvwfb/Build/Products/Debug/bitmapOutput.bmp";
+    name[2] = "open bitmapOutput.bmp";
+//    name[2] = "open /Users/calvinkern/Library/Developer/Xcode/DerivedData/Ray_Tracer-dchgeqgmvwoennabejquhbdfvwfb/Build/Products/Release/bitmapOutput.bmp";
     name[3] = NULL;
     execvp("/bin/sh", name);
 }
